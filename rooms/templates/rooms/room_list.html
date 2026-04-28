@@ -1,0 +1,32 @@
+{% extends 'base/base.html' %}
+{% block title %}Chambres{% endblock %}
+{% block content %}
+<div class="container my-5">
+    <h1>Nos Chambres</h1>
+    <div class="row">
+        {% for room in chambres %}
+        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 py-3">
+            <div class="card bg-light my-3 p-3 rounded" style="height: 100%;">
+                <a href="{% url 'room_detail' room.id %}">
+                    {% if room.image %}
+                    <img src="{{ room.image.url }}" class="card-img" alt="{{ room.name }}">
+                    {% else %}
+                    <div class="bg-secondary text-white text-center py-5 rounded">Pas d'image</div>
+                    {% endif %}
+                </a>
+                <div class="card-body">
+                    <div class="card-title" style="height: 60px;">
+                        <a href="{% url 'room_detail' room.id %}" class="text-decoration-none">
+                            <strong>{{ room.name }}</strong>
+                        </a>
+                    </div>
+                    <div class="card-text">
+                        <h3>{{ room.price }} MAD</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

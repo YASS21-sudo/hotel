@@ -1,0 +1,62 @@
+{% extends 'base/base.html' %}
+{% block content %}
+<div class="container">
+    <a href="{% url 'rooms_list' %}" class="btn btn-light my-3">Retour</a>
+    <div class="row">
+        <div class="col-md-6">
+            {% if room.image %}
+            <img src="{{ room.image.url }}" alt="{{ room.name }}" class="img-fluid rounded">
+            {% else %}
+            <div class="bg-secondary text-white text-center py-5 rounded" style="height: 300px; display: flex; align-items: center; justify-content: center;">Pas d'image</div>
+            {% endif %}
+        </div>
+        <div class="col-md-3">
+            <div class="list-group">
+                <div class="list-group-item">
+                    <h3>{{ room.name }}</h3>
+                </div>
+                <div class="list-group-item">
+                    {{ room.description }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="list-group">
+                    <div class="list-group-item">
+                        <div class="row">
+                            <div class="col">Prix :</div>
+                            <div class="col"><strong>{{ room.price }} MAD</strong></div>
+                        </div>
+                    </div>
+                    <div class="list-group-item">
+                        <div class="row">
+                            <div class="col">Statut :</div>
+                            <div class="col"><strong>{{ room.stock|yesno:"Disponible,Occupée" }}</strong></div>
+                        </div>
+                    </div>
+                    <form method="post" action="{% url 'add_reservation' room.id %}">
+                        {% csrf_token %}
+                        <div class="list-group-item">
+                            <div class="row">
+                                <div class="col">Quantité :</div>
+                                <div class="col"><input type="number" name="quantity" min="1" class="form-control" value="1"></div>
+                            </div>
+                        </div>
+                        {% if request.GET.error %}
+                        <div class="list-group-item">
+                            <div class="alert alert-danger">
+                                {{ request.GET.error }}
+                            </div>
+                        </div>
+                        {% endif %}
+                        <div class="list-group-item text-center">
+                            <button type="submit" class="btn btn-primary" {% if room.stock <= 0 %}disabled{% endif %}>Ajouter au panier</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
