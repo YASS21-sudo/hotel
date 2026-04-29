@@ -1,7 +1,45 @@
 {% extends 'base/base.html' %}
-{% block title %}Accueil{% endblock %}
+{% block title %}Accueil - Hôtel{% endblock %}
 {% block content %}
 <div class="container my-5">
-    <h1>bienvenue </h1>
+    <div class="jumbotron bg-primary text-white text-center py-5">
+        <h1 class="display-4">Bienvenue à notre Hôtel</h1>
+        <p class="lead">Découvrez nos chambres confortables et réservez votre séjour.</p>
+        <a href="{% url 'rooms_list' %}" class="btn btn-light btn-lg">Voir nos chambres</a>
+    </div>
+    <h2 class="text-center my-4">Chambres populaires</h2>
+    <div class="row">
+        {% for room in featured_rooms %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                {% if room.image %}
+                <img src="{{ room.image.url }}" class="card-img-top" alt="{{ room.name }}">
+                {% else %}
+                <div class="card-img-top bg-secondary text-white text-center py-5">Pas d'image</div>
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ room.name }}</h5>
+                    <p class="card-text">{{ room.price }} MAD</p>
+                    <a href="{% url 'room_detail' room.id %}" class="btn btn-primary">Voir détails</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <h2 class="text-center my-4">Nos services</h2>
+    <div class="row text-center">
+        <div class="col-md-4">
+            <i class="fas fa-wifi fa-3x mb-3"></i>
+            <h5>WiFi gratuit</h5>
+        </div>
+        <div class="col-md-4">
+            <i class="fas fa-swimming-pool fa-3x mb-3"></i>
+            <h5>Piscine</h5>
+        </div>
+        <div class="col-md-4">
+            <i class="fas fa-utensils fa-3x mb-3"></i>
+            <h5>Restaurant</h5>
+        </div>
+    </div>
 </div>
 {% endblock %}
